@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<style>
+		#container {
+			top: 30px;
+			left: 100px;
+			width: 360px;
+			height: 360px;
+			position: relative;
+		}
+		
+		table {
+			border: 1px solid black;
+			border-collapse: collapse;
+		}
+		
+		td {
+			border: 1px solid black;
+			height: 118px;
+			width: 120px;
+			text-align: center;
+		}
+		
+		#won, #lost, #tie {
+			top: 30px;
+			left: 500px;
+			width: 200px;
+			position: absolute;
+		}
+	</style>
+	<head>
+		<meta charset="utf-8">
+		<title>Tic Tac Toe</title>
+		<h1>TIC TAC TOE</h1>
+		<h6>Created by Christine Buck (2019)</h6>
+		<p><strong><u>Instructions:</u></strong><br>
+		1. The game is played on a grid that's 3 squares by 3 squares.<br>
+		2. You are X, the computer is O. Players take turns putting their marks in empty squares.<br>
+		3. The first player to get 3 of their marks in a row (up, down, across, or diagonally) is the winner.<br>
+		4. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.</p>
+		<br>
+		<button type="button" id="button" onclick="newGame()">New Game</button>
+	</head>
+	<body>
+		<div id="container">
+			<table>
+				<tr>
+					<td id="A1" onclick="selectCell(this.id)"></td>
+					<td id="A2" onclick="selectCell(this.id)"></td>
+					<td id="A3" onclick="selectCell(this.id)"></td>
+				</tr>
+				<tr>
+					<td id="B1" onclick="selectCell(this.id)"></td>
+					<td id="B2" onclick="selectCell(this.id)"></td>
+					<td id="B3" onclick="selectCell(this.id)"></td>
+				</tr>
+				<tr>
+					<td id="C1" onclick="selectCell(this.id)"></td>
+					<td id="C2" onclick="selectCell(this.id)"></td>
+					<td id="C3" onclick="selectCell(this.id)"></td>
+				</tr>
+			</table>
+			<p id="won"></p>
+			<p id="lost"></p>
+			<p id="tie"></p>
+		</div>
+		<script>
+			document.getElementById("container").style.display = "none";
+			var turns;
+			wonMsg = "YOU WIN!!!";
+			lostMsg = "Sorry, you lost."
+			tieMsg = "It was a tie!"
+			
+			function newGame() {
+				turns = 0;
+				document.getElementById("container").style.display = "block";
+				cellArray = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"];
+				
+				document.getElementById("A1").innerHTML = "";
+				document.getElementById("A2").innerHTML = "";
+				document.getElementById("A3").innerHTML = "";
+				document.getElementById("B1").innerHTML = "";
+				document.getElementById("B2").innerHTML = "";
+				document.getElementById("B3").innerHTML = "";
+				document.getElementById("C1").innerHTML = "";
+				document.getElementById("C2").innerHTML = "";
+				document.getElementById("C3").innerHTML = "";
+				
+				document.getElementById("won").innerHTML = "";
+				document.getElementById("lost").innerHTML = "";
+				document.getElementById("tie").innerHTML = "";
+			}
+			
+			function selectCell(clickedCell) {
+				if (turns == 0) {
+					Play1 = clickedCell;
+					document.getElementById(Play1).innerHTML = "X";
+					
+					var index1 = cellArray.indexOf(Play1);
+					if (index1 > -1) {
+						cellArray.splice(index1, 1);
+					}
+					
+					random = Math.floor(Math.random()*8);
+					Play2 = cellArray[random];
+					document.getElementById(Play2).innerHTML = "O";
+					
+					var index2 = cellArray.indexOf(Play2);
+					if (index2 > -1) {
+						cellArray.splice(index2, 1);
+					}
+					
+					turns++;
+				} else if (turns == 1) {
+					Play3 = clickedCell;
+					document.getElementById(Play3).innerHTML = "X";
+					
+					var index3 = cellArray.indexOf(Play3);
+					if (index3 > -1) {
+						cellArray.splice(index3, 1);
+					}
+					
+					random = Math.floor(Math.random()*6);
+					Play4 = cellArray[random];
+					document.getElementById(Play4).innerHTML = "O";
+					
+					var index4 = cellArray.indexOf(Play4);
+					if (index4 > -1) {
+						cellArray.splice(index4, 1);
+					}
+					
+					turns++;
+				} else if (turns == 2) {
+					Play5 = clickedCell;
+					document.getElementById(Play5).innerHTML = "X";
+					
+					var index5 = cellArray.indexOf(Play5);
+					if (index5 > -1) {
+						cellArray.splice(index5, 1);
+					}
+					
+					youWin = validateYou();
+					console.log(youWin);
+					
+					if (youWin == true) {
+						
+						document.getElementById("won").innerHTML = wonMsg;
+					} else {
+						random = Math.floor(Math.random()*4);
+						Play6 = cellArray[random];
+						document.getElementById(Play6).innerHTML = "O";
+						
+						var index6 = cellArray.indexOf(Play6);
+						if (index6 > -1) {
+							cellArray.splice(index6, 1);
+						}
+						
+						compWin = validateComp();
+						console.log(compWin);
+						
+						if (compWin == true) {
+							document.getElementById("lost").innerHTML = lostMsg;
+						} else {
+							turns++;
+						}
+					}
+				} else if (turns == 3) {
+					Play7 = clickedCell;
+					document.getElementById(Play7).innerHTML = "X";
+					
+					var index7 = cellArray.indexOf(Play7);
+					if (index7 > -1) {
+						cellArray.splice(index7, 1);
+					}
+					
+					youWin = validateYou();
+					console.log(youWin);
+					
+					if (youWin == true) {
+						document.getElementById("won").innerHTML = wonMsg;
+					} else {
+						random = Math.floor(Math.random()*2);
+						Play8 = cellArray[random];
+						document.getElementById(Play8).innerHTML = "O";
+						
+						var index8 = cellArray.indexOf(Play8);
+						if (index8 > -1) {
+							cellArray.splice(index8, 1);
+						}
+						
+						compWin = validateComp();
+						console.log(compWin);
+						
+						if (compWin == true) {
+							document.getElementById("lost").innerHTML = lostMsg;
+						} else {
+							turns++;
+						}
+					}
+				} else if (turns == 4) {
+					Play9 = clickedCell;
+					document.getElementById(Play9).innerHTML = "X";
+					
+					youWin = validateYou();
+					console.log(youWin);
+					
+					if (youWin == true) {
+						document.getElementById("won").innerHTML = wonMsg;
+					} else {
+						document.getElementById("tie").innerHTML = tieMsg;
+					}
+				}
+			}
+			
+			function validateYou() {
+				var A1 = document.getElementById("A1").innerText;
+				var A2 = document.getElementById("A2").innerText;
+				var A3 = document.getElementById("A3").innerText;
+				var B1 = document.getElementById("B1").innerText;
+				var B2 = document.getElementById("B2").innerText;
+				var B3 = document.getElementById("B3").innerText;
+				var C1 = document.getElementById("C1").innerText;
+				var C2 = document.getElementById("C2").innerText;
+				var C3 = document.getElementById("C3").innerText;
+				console.log(A1);
+				console.log(A2);
+				console.log(A3);
+				console.log(B1);
+				console.log(B2);
+				console.log(B3);
+				console.log(C1);
+				console.log(C2);
+				console.log(C3);
+				if ((A1 == "X" && A1 == A2 && A2 == A3) || (B1 == "X" && B1 == B2 && B2 == B3) || (C1 == "X" && C1 == C2 && C2 == C3) || (A1 == "X" && A1 == B1 && B1 == C1) || (A2 == "X" && A2 == B2 && B2 == C2) || (A3 == "X" && A3 == B3 && B3 == C3) || (A1 == "X" && A1 == B2 && B2 == C3) || (A3 == "X" && A3 == B2 && B2 == C1)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			
+			function validateComp() {
+				var A1 = document.getElementById("A1").innerText;
+				var A2 = document.getElementById("A2").innerText;
+				var A3 = document.getElementById("A3").innerText;
+				var B1 = document.getElementById("B1").innerText;
+				var B2 = document.getElementById("B2").innerText;
+				var B3 = document.getElementById("B3").innerText;
+				var C1 = document.getElementById("C1").innerText;
+				var C2 = document.getElementById("C2").innerText;
+				var C3 = document.getElementById("C3").innerText;
+				console.log(A1);
+				console.log(A2);
+				console.log(A3);
+				console.log(B1);
+				console.log(B2);
+				console.log(B3);
+				console.log(C1);
+				console.log(C2);
+				console.log(C3);
+				if ((A1 == "O" && A1 == A2 && A2 == A3) || (B1 == "O" && B1 == B2 && B2 == B3) || (C1 == "O" && C1 == C2 && C2 == C3) || (A1 == "O" && A1 == B1 && B1 == C1) || (A2 == "O" && A2 == B2 && B2 == C2) || (A3 == "O" && A3 == B3 && B3 == C3) || (A1 == "O" && A1 == B2 && B2 == C3) || (A3 == "O" && A3 == B2 && B2 == C1)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		</script>
+	</body>
+</html>

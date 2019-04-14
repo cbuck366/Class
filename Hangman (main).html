@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+	<style>
+		#container {
+			width: 900px;
+			height: 425px;
+			position: relative;
+		}
+		
+		#man {
+			width: 300px;
+			height: 400px;
+			top: 0px;
+			left: 0px;
+			position: absolute;
+		}
+		
+		#word {
+			top: 200px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#endResult {
+			top: 40px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#won, #lost {
+			top: 0px;
+			left: 650px;
+			position: absolute;
+		}
+		
+		#revealWord {
+			top: 60px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#input {
+			top: 130px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#inputComment {
+			top: 140px;
+			left: 350px;
+			position: absolute;
+			font-size: 12px;
+		}
+		
+		#wordGuess {
+			top: 130px;
+			left: 530px;
+			position: absolute;
+		}
+		
+		.hide {
+			display:none;
+		}
+		
+		.show {
+			display:block;
+		}
+		
+		#wordGuessResult {
+			top: 170px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#printWord {
+			top: 240px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#hintButton {
+			top: 305px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		#hint {
+			top: 290px;
+			left: 400px;
+			position: absolute;
+		}
+		
+		#guessResult {
+			top: 330px;
+			left: 350px;
+			position: absolute;
+		}
+		
+		.button {
+			border-radius: 4px;
+			width: 30px;
+		}
+		
+		.button:hover {
+			background-color: black;
+			color: white;
+		}
+	</style>
+	<head>
+		<meta charset="utf-8">
+		<title>Hangman Game</title>
+		<h1>HANGMAN</h1>
+		<h6>Created by Christine Buck (2019)</h6>
+		<p>Hangman is a quick and easy game! Start guessing the letters in the word by choosing a letter (using the buttons below).<br>
+		You can also guess the word with the text box provided. You must guess the word correctly before the 'hanged man' is dead in order to win.<br>
+		If you guess wrong, your 'hanged man' will gain a new appendage, taking you one step closer to losing.<br>
+		If the man is completed before guessing the word, you have lost the game. Press the 'Start New Game' button to get started.</p>
+		<button type="text" id="start" onclick="newWord()">Start New Game!</button>
+	</head>
+	<body>
+		<div id="container">
+			<p id="man"></p>
+			<p id="word"></p>
+			<p id="endResult"></p>
+			<p class="hide" id="won"></p>
+			<p class="hide" id="lost"></p>
+			<p id="revealWord"></p>
+			<input class="hide" type="text" id="input" onfocus="this.value=''"></input>
+			<button class="hide" type="text" id="wordGuess" onclick="wordGuess()">Guess Word</button>
+			<p class="hide" id="inputComment"><i>* Click text field to clear word. *</i></p>
+			<p id="wordGuessResult"></p>
+			<p id="printWord"></p>
+			<button class="hide" type="button" id="hintButton" onclick="hintFunc()">Hint</button>
+			<p id="hint"></p>
+			<p id="guessResult"></p>
+		</div>
+		
+		<button type="text" class="button" id="A" onclick="validate(this.id)">A</button>
+		<button type="text" class="button" id="B" onclick="validate(this.id)">B</button>
+		<button type="text" class="button" id="C" onclick="validate(this.id)">C</button>
+		<button type="text" class="button" id="D" onclick="validate(this.id)">D</button>
+		<button type="text" class="button" id="E" onclick="validate(this.id)">E</button>
+		<button type="text" class="button" id="F" onclick="validate(this.id)">F</button>
+		<button type="text" class="button" id="G" onclick="validate(this.id)">G</button>
+		<button type="text" class="button" id="H" onclick="validate(this.id)">H</button>
+		<button type="text" class="button" id="I" onclick="validate(this.id)">I</button>
+		<button type="text" class="button" id="J" onclick="validate(this.id)">J</button>
+		<button type="text" class="button" id="K" onclick="validate(this.id)">K</button>
+		<button type="text" class="button" id="L" onclick="validate(this.id)">L</button>
+		<button type="text" class="button" id="M" onclick="validate(this.id)">M</button>
+		<button type="text" class="button" id="N" onclick="validate(this.id)">N</button>
+		<button type="text" class="button" id="O" onclick="validate(this.id)">O</button>
+		<button type="text" class="button" id="P" onclick="validate(this.id)">P</button>
+		<button type="text" class="button" id="Q" onclick="validate(this.id)">Q</button>
+		<button type="text" class="button" id="R" onclick="validate(this.id)">R</button>
+		<button type="text" class="button" id="S" onclick="validate(this.id)">S</button>
+		<button type="text" class="button" id="T" onclick="validate(this.id)">T</button>
+		<button type="text" class="button" id="U" onclick="validate(this.id)">U</button>
+		<button type="text" class="button" id="V" onclick="validate(this.id)">V</button>
+		<button type="text" class="button" id="W" onclick="validate(this.id)">W</button>
+		<button type="text" class="button" id="X" onclick="validate(this.id)">X</button>
+		<button type="text" class="button" id="Y" onclick="validate(this.id)">Y</button>
+		<button type="text" class="button" id="Z" onclick="validate(this.id)">Z</button>
+		
+		<script type="text/javascript">
+			var img1 = document.createElement("img");
+			img1.src = "man.png";
+			var src1 = document.getElementById("man");
+			src1.appendChild(img1);
+			
+			var img2 = document.createElement("img");
+			img2.src = "Dancing Girl.gif";
+			var src2 = document.getElementById("won");
+			src2.appendChild(img2);
+			
+			var img3 = document.createElement("img");
+			img3.src = "Sad Baby.gif";
+			var src3 = document.getElementById("lost");
+			src3.appendChild(img3);
+			
+			var word = ["horse", "christmas", "computer", "document", "kangaroo", "canada", "notebook", "hazard",
+			"quietly", "bathroom", "umbrella", "party", "baseball", "jump", "honey", "father", "vowels", "stamp"];
+			
+			hint = ["Animal", "Holiday", "Electronics", "Office", "Animal", "Place", "School", "Dangerous",
+			"Adjective", "In Your House", "Weather Item", "Event", "Sports", "Action", "Food", "Family", "Alphabet", "Mail"]
+						
+			document.getElementById("start").addEventListener("click", reset);
+			function reset() {
+				turns = 0;
+				img1.src = "man.png";
+				document.getElementById("guessResult").innerHTML = "";
+				document.getElementById("endResult").innerHTML = "";
+				document.getElementById("revealWord").innerHTML = "";
+				document.getElementById("input").value = "";
+				document.getElementById("wordGuessResult").innerHTML = "";
+				document.getElementById("hint").innerHTML = "";
+				
+				document.getElementById("A").style.background = "#DCDCDC";
+				document.getElementById("B").style.background = "#DCDCDC";
+				document.getElementById("C").style.background = "#DCDCDC";
+				document.getElementById("D").style.background = "#DCDCDC";
+				document.getElementById("E").style.background = "#DCDCDC";
+				document.getElementById("F").style.background = "#DCDCDC";
+				document.getElementById("G").style.background = "#DCDCDC";
+				document.getElementById("H").style.background = "#DCDCDC";
+				document.getElementById("I").style.background = "#DCDCDC";
+				document.getElementById("J").style.background = "#DCDCDC";
+				document.getElementById("K").style.background = "#DCDCDC";
+				document.getElementById("L").style.background = "#DCDCDC";
+				document.getElementById("M").style.background = "#DCDCDC";
+				document.getElementById("N").style.background = "#DCDCDC";
+				document.getElementById("O").style.background = "#DCDCDC";
+				document.getElementById("P").style.background = "#DCDCDC";
+				document.getElementById("Q").style.background = "#DCDCDC";
+				document.getElementById("R").style.background = "#DCDCDC";
+				document.getElementById("S").style.background = "#DCDCDC";
+				document.getElementById("T").style.background = "#DCDCDC";
+				document.getElementById("U").style.background = "#DCDCDC";
+				document.getElementById("V").style.background = "#DCDCDC";
+				document.getElementById("W").style.background = "#DCDCDC";
+				document.getElementById("X").style.background = "#DCDCDC";
+				document.getElementById("Y").style.background = "#DCDCDC";
+				document.getElementById("Z").style.background = "#DCDCDC";
+			}
+			
+			function newWord() {
+				document.getElementById("input").className = "show";
+				document.getElementById("wordGuess").className = "show";
+				document.getElementById("inputComment").className = "show";
+				document.getElementById("hintButton").className = "show";
+				document.getElementById("won").className = "hide";
+				document.getElementById("lost").className = "hide";
+				
+				random = Math.floor(Math.random()*word.length);
+				randomWord = word[random];
+				var numLetters = randomWord.length;
+				
+				wordLetters = [];
+				for(h = 0; h < randomWord.length; h++) {
+					wordLetters.push("_____");
+				}
+				wordLetters.toString();
+				document.getElementById("printWord").innerHTML = wordLetters.join(" ");
+			}
+			
+			function hintFunc() {
+				var relatedHint = hint[random];
+				document.getElementById("hint").innerHTML = relatedHint;
+			}
+			
+			function validate(clicked_id) {
+				var guess = clicked_id.toLowerCase();
+				var x = charCount(randomWord, guess);
+				
+				document.getElementById(clicked_id).style.background = "black";
+				
+				function charCount() {
+					var count = 0;
+					for(j = 0; j < randomWord.length; j++) {
+						if(randomWord[j] == guess) {
+							count++;
+						}
+					}
+					return count;
+				}
+				
+				if(x == 0) {
+					var result = "The letter " + clicked_id + " is not in the word. Sorry!"
+					document.getElementById("guessResult").innerHTML = result;
+					if(turns == 0) {
+						img1.src = "man1.png";
+					} else if(turns == 1) {
+						img1.src = "man2.png";
+					} else if(turns == 2) {
+						img1.src = "man3.png";
+					} else if(turns == 3) {
+						img1.src = "man4.png";
+					} else if(turns == 4) {
+						img1.src = "man5.png";
+					} else if(turns == 5) {
+						img1.src = "man6.png";
+					} else if(turns == 6) {
+						img1.src = "manDead.png";
+						document.getElementById("endResult").innerHTML = "Sorry, you lost!";
+						document.getElementById("revealWord").innerHTML = "The word was " + randomWord + ".";
+						document.getElementById("lost").className = "show";
+					}
+					turns++;
+				} else {
+					var result = "The letter " + clicked_id + " is in the word " + x + " time(s)."
+					document.getElementById("guessResult").innerHTML = result;
+					
+					for(k = 0; k < randomWord.length; k++) {
+						if(randomWord[k] === guess) {
+							var res = clicked_id.fontsize(6);
+							wordLetters[k] = res;
+						}
+					}
+					document.getElementById("printWord").innerHTML = wordLetters.join(" ");
+					var done = wordLetters.includes("_____");
+					if(done == false) {
+						var won = "YOU WON!!!"
+						document.getElementById("endResult").innerHTML = won.fontsize(6);
+						document.getElementById("won").className = "show";
+					}
+				}
+			}
+			
+			function wordGuess() {
+				var z = document.getElementById("input").value;
+				var testWord = z.toLowerCase();
+				if(testWord == randomWord) {
+					var won = "YOU WON!!!"
+					document.getElementById("endResult").innerHTML = won.fontsize(6);
+					document.getElementById("wordGuessResult").innerHTML = "Yes! You guessed the word correctly!";
+					document.getElementById("guessResult").innerHTML = "";
+					document.getElementById("won").className = "show";
+					var temp = randomWord.fontsize(6);
+					var done = temp.toUpperCase();
+					document.getElementById("printWord").innerHTML = done;
+				} else {
+					document.getElementById("wordGuessResult").innerHTML = "No, sorry. That is not the word.";
+					document.getElementById("guessResult").innerHTML = "";
+					if(turns == 0) {
+						img1.src = "man1.png";
+					} else if(turns == 1) {
+						img1.src = "man2.png";
+					} else if(turns == 2) {
+						img1.src = "man3.png";
+					} else if(turns == 3) {
+						img1.src = "man4.png";
+					} else if(turns == 4) {
+						img1.src = "man5.png";
+					} else if(turns == 5) {
+						img1.src = "man6.png";
+					} else if(turns == 6) {
+						img1.src = "manDead.png";
+						document.getElementById("endResult").innerHTML = "Sorry, you lost!";
+						document.getElementById("revealWord").innerHTML = "The word was " + randomWord + ".";
+						document.getElementById("lost").className = "show";
+					}
+					turns++;
+				}
+			}
+		</script>
+	</body>
+</html>
